@@ -1,4 +1,5 @@
-
+import java.util.ArrayList;
+//데이터 구조화 클래스 = DTO,VO
 public class Article {
 	
 	private int id;
@@ -7,6 +8,7 @@ public class Article {
 	private String regDate;
 	private int mid;
 	private int hit;
+
 	
 	
 	public Article() {
