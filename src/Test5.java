@@ -1,69 +1,78 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Test5 {
 	public static void main(String[] args) {
-		
-		ArrayList<Article> article = new ArrayList<>();
-		
-		for(int i = 1; i <= 50; i++) {
-			Article a1 = new Article();
-			a1.setId(i);
-			a1.setTitle("제목: " + i);
-			a1.setBody("내용: " + i);
-			
-			article.add(a1);
-		}
-		
-		
-		Scanner sc = new Scanner(System.in);
-		int currentPageNO = 12; // 현재 페이지
-		int totalCntOfItems = article.size(); //전체 게시물 개수
-		int startPageNo = 1; // 시작 페이지 번호
-		int itemsCntPerPage = 3; // 페이지당 출력 게시물 개수
-		int pagecntPerBlock = 5; // 한 페이지 블럭 당 페이지 개수
-		int endPageNO =(int)Math.ceil((double)totalCntOfItems / itemsCntPerPage); // 마지막 페이지 번호
+		// Json 읽기 (decoding)
+//		String jsonStr = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
+//		JSONArray array = (JSONArray) JSONValue.parse(jsonStr);
+//
+//		System.out.println(array.get(1));
+//		System.out.println();
+//
+//		JSONObject obj2 = (JSONObject) array.get(1);
+//		System.out.println("Field \"1\"");
+//		System.out.println(obj2.get("1"));
+//
+//		JSONObject obj = new JSONObject();
+//		String jsonText;
+//
+//		obj.put("name", "foo");
+//		obj.put("num", new Integer(100));
+//		obj.put("balance", new Double(1000.21));
+//		obj.put("is_vip", new Boolean(true));
+//		jsonText = obj.toString();
+//
+//		System.out.println("Encode a JSON Object - to String");
+//		System.out.print(jsonText);
+//		
+//		JSONObject jobj = (JSONObject)JSONValue.parse(jsonText);
+//		String s1 = (String)jobj.get("name");
+//		
+//		System.out.println(s1);
 
-		
-		if(currentPageNO < startPageNo) {
-			currentPageNO = startPageNo;
-		}
-		
-		if(currentPageNO > endPageNO) {
-			currentPageNO = endPageNO;
-		}
-		
-		int currentPageBlock= (int)Math.ceil((double)currentPageNO / pagecntPerBlock);
-		int startPageNoInBlock = (currentPageBlock - 1) * pagecntPerBlock + 1 ;	
-		int endPageNoInBlock = startPageNoInBlock + pagecntPerBlock - 1;
-		
-		if(endPageNoInBlock > endPageNO) {
-			endPageNoInBlock = endPageNO;
-		}
-		
-		int startIndex = (currentPageNO -1) * itemsCntPerPage;
-		int endIndex = startIndex + pagecntPerBlock -1;
-		if(endIndex > totalCntOfItems) {
-			endIndex = totalCntOfItems;
-		}
-				
-		
-		
-		for(int i = startIndex; i < endIndex; i++) {
-			System.out.println("번호 : "+ article.get(i).getId());
-			System.out.println("제목 : "+ article.get(i).getTitle());
-			System.out.println("내용 : "+ article.get(i).getBody());
-			System.out.println("=============================");		
-		}
-		
-		
-		for(int i = startPageNoInBlock; i <= endPageNoInBlock; i++) {
-			
-			if(i == currentPageNO) {
-				System.out.print("[" + i + "] ");
-			}else {
-				System.out.print(i + " ");
+		try {
+			// 파일 객체 생성
+			File file = new File("C:/test/article.json");
+			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+
+			if (file.isFile() && file.canWrite()) {
+				// 쓰기
+				bufferedWriter.write("문자열 추가1");
+				// 개행문자쓰기
+				bufferedWriter.newLine();
+				bufferedWriter.write("문자열 추가2");
+
+				bufferedWriter.close();
 			}
+		} catch (IOException e) {
+			System.out.println(e);
 		}
+
+		// 파일읽기
+		try {
+			// 파일 객체 생성
+			File file = new File("C:/test/test.txt");
+			// 입력 스트림 생성
+			FileReader filereader = new FileReader(file);
+			// 입력 버퍼 생성
+			BufferedReader bufReader = new BufferedReader(filereader);
+			String line = "";
+			while ((line = bufReader.readLine()) != null) {
+				System.out.println(line);
+			}
+			// .readLine()은 끝에 개행문자를 읽지 않는다.
+			bufReader.close();
+		} catch (FileNotFoundException e) {
+			// TODO: handle exception
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+
 	}
 }

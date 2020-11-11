@@ -1,6 +1,12 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import org.json.simple.JSONObject;
 
 public class ArticleDao {
 
@@ -27,7 +33,41 @@ public class ArticleDao {
 			articles.add(a4);
 		}
 	}
+	
+	public void writeJsonFile(String filename) {
+		String filePath = "C:/test/article_" ++ 
+		
+		File file = new File("C:/test/article1.json");
+		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
 
+		if (file.isFile() && file.canWrite()) {
+			// 쓰기
+			bufferedWriter.write("문자열 추가1");
+			// 개행문자쓰기
+			bufferedWriter.newLine();
+			bufferedWriter.write("문자열 추가2");
+
+			bufferedWriter.close();
+		}
+	} catch (IOException e) {
+		System.out.println(e);
+	}
+	
+	
+	public void articleToJsonFile(Article article) {
+		JSONObject obj = new JSONObject();
+
+		obj.put("id", article.getId());
+		obj.put("title", article.getTitle());
+		obj.put("body", article.getBody());
+		obj.put("mid", article.getMid());
+		obj.put("hit", article.getHit());
+		obj.put("likeCnt", article.getLikeCnt());
+		obj.put("regDate", article.getRegDate());
+		
+		return obj;
+	}
+	
 	public void insertArticle(Article a) {
 		a.setId(no);
 		no++;

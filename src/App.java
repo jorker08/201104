@@ -54,6 +54,7 @@ public class App {
 			}
 			if (cmd.equals("article list")) {
 				ArrayList<Article> articles = articleDao.getArticles();
+				Pagimation pagination = new Pagination();
 
 				printArticles(articles,1);
 
